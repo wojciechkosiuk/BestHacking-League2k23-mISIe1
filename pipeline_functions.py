@@ -7,9 +7,9 @@ def initial_transform(df):
     df['Month'] = df['InvoiceDate'].dt.month
     df['Year'] = df['InvoiceDate'].dt.year
     df['Day'] = df['InvoiceDate'].dt.day
-    df['Hour'] = df['InvoiceDate'].dt.hour
-    df['Minute'] = df['InvoiceDate'].dt.minute
-    df['Second'] = df['InvoiceDate'].dt.second
+    # df['Hour'] = df['InvoiceDate'].dt.hour
+    # df['Minute'] = df['InvoiceDate'].dt.minute
+    # df['Second'] = df['InvoiceDate'].dt.second
     df['Price'] = df['Price'].astype(float)
     df['TotalPrice'] = df['Price'] * df['Quantity']
     df['YearMonth'] = df['InvoiceDate'].map(lambda date: str(date.year) + "-" +str(date.month).zfill(2))
