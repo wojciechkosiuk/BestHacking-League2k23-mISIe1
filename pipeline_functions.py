@@ -43,21 +43,30 @@ def add_continent_and_eu_columns(df):
     country_eu = {}
     for country in countries:
         try:
-            #country name to country code
-            code = pycountry_convert.country_name_to_country_alpha2(country)
-            #country code to continent
-            continent  =pycountry_convert.country_alpha2_to_continent_code(code)
+            if country == "United Kingdom":
+                continent = "EU_UK"
+
+            else:
+                #country name to country code
+                code = pycountry_convert.country_name_to_country_alpha2(country)
+                #country code to continent
+                continent  =pycountry_convert.country_alpha2_to_continent_code(code)
+                
+
 
             country_continent[country] = continent
 
         except KeyError:
             continue
-        country_eu[country] = 0 if country is None or country not in eu_countries_2011 else 1
+        is_eu = 0 if country is None or country not in eu_countries_2011 else 1
+
+        if continent == "EU" and not is_eu:
+            continent = "EU_nonEU"
+            country_continent[country] = continent
+            
 
 
     # create a new column with the continent for each row
     df['Continent'] = df['Country'].map(country_continent)
-    df["is_eu"] = df["Country"].map(country_eu)
-    df['is_eu'].fillna(0, inplace=True)
-    df["is_eu"] = df["is_eu"].astype(int)
+
     return df
