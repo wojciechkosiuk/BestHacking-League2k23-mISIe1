@@ -1,8 +1,6 @@
 # BestHacking-League2k23-mISIe1
 
-https://www.kaggle.com/competitions/m5-forecasting-accuracy/data
-
-https://drive.google.com/drive/folders/1CbGAtEbi_ILARR8PsrOaMzviov-3-vD2?usp=sharing
+https://archive.ics.uci.edu/ml/datasets/Online+Retail+II
 
 ## Zrozumienie wybranej bazy danych. (20 pkt)
 Przeanalizuj zbiór danych pod kątem rekordów wybrakowanych, korelacji wartości itp. w celu
