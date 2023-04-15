@@ -1,6 +1,36 @@
 # BestHacking-League2k23-mISIe1
 
-https://www.kaggle.com/competitions/m5-forecasting-accuracy/data
+## Dataset
+https://archive.ics.uci.edu/ml/datasets/Online+Retail+II
+This Online Retail II data set contains all the transactions occurring for a UK-based and registered, non-store online retail between 01/12/2009 and 09/12/2011.The company mainly sells unique all-occasion gift-ware. Many customers of the company are wholesalers.
+
+
+### Attributes description
+
+* InvoiceNo: Invoice number. Nominal. A 6-digit integral number uniquely assigned to each transaction. If this code starts with the letter 'c', it indicates a cancellation.
+* StockCode: Product (item) code. Nominal. A 5-digit integral number uniquely assigned to each distinct product.
+* Description: Product (item) name. Nominal.
+* Quantity: The quantities of each product (item) per transaction. Numeric.
+* InvoiceDate: Invice date and time. Numeric. The day and time when a transaction was generated.
+* UnitPrice: Unit price. Numeric. Product price per unit in sterling (Â£).
+* CustomerID: Customer number. Nominal. A 5-digit integral number uniquely assigned to each customer.
+* Country: Country name. Nominal. The name of the country where a customer resides.
+
+
+---
+
+## Notes:
+* EDA: wykres krajów (podział na kontynenty), kraj vs cena, produkt vs kraj, 
+* Tworzenie nowych kolumn - Customer Country
+* Wykrywanie i usuwanie outlierów
+* NLP
+* Podział Time-Series Split
+* Wybór kolumn (!!!)
+* Model
+* Wizualizacje
+
+
+
 
 ## Zrozumienie wybranej bazy danych. (20 pkt)
 Przeanalizuj zbiór danych pod kątem rekordów wybrakowanych, korelacji wartości itp. w celu
