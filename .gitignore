@@ -1,2 +1,5 @@
 *.xlsx
 __pycache__
+online_retail_II_word2vec_full.csv
+online_retail_II_word2vec_v2.csv
+online_retail_II_word2vec.csv
