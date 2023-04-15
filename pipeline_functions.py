@@ -77,12 +77,19 @@ def add_continent_and_eu_columns(df):
     return df
 
 
+def encode_stockcode(df):
+    df['StockCodeHash'] = df['StockCode'].apply(lambda x: hash(x))
+    map_ = df[['StockCodeHash', 'StockCode']].drop_duplicates().set_index('StockCodeHash').to_dict()['StockCode']
+    df.drop(['StockCode'],axis=1, inplace=True)
+    return df, map_
+
+
 
 def add_moving_mean_columns(df):
 
-    df_price = df.groupby(['Year', 'Month', 'StockCode','is_logged']).agg({'Price': 'mean'})
+    df_price = df.groupby(['Year', 'Month', 'StockCodeHash','is_logged']).agg({'Price': 'mean'})
     df_price = df_price.reset_index()
-    df_price = df_price.pivot_table(index=['Year', 'Month', 'StockCode'], columns='is_logged', values='Price')
+    df_price = df_price.pivot_table(index=['Year', 'Month', 'StockCodeHash'], columns='is_logged', values='Price')
 
     # Rename the columns
     df_price = df_price.rename(columns={0: 'price_unlogged', 1: 'price_logged'})
@@ -93,23 +100,29 @@ def add_moving_mean_columns(df):
     df_price["price_unlogged"].fillna(df_price["price_logged"]*2,inplace=True)
 
 
-    df_grouped = df.groupby(['Year', 'Month', 'StockCode', 'Continent']).agg({'Quantity': 'sum'})
+    df_grouped = df.groupby(['Year', 'Month', 'StockCodeHash', 'Continent']).agg({'Quantity': 'sum'})
     df_grouped = df_grouped.reset_index()
     
     # mr. worldwide
-    quantities_total = df_grouped.groupby(['Year', 'Month', 'StockCode']).agg({'Quantity': 'sum'}).reset_index().rename(columns={'Quantity': 'quantity_month_worldwide'})
-    quantities_total["mean_worldwide"] = quantities_total.groupby("StockCode")["quantity_month_worldwide"].rolling(window=3).mean().reset_index(level=0, drop=True)
-    quantities_total["weighted_mean_worldwide"] = quantities_total.groupby("StockCode")["quantity_month_worldwide"].ewm(span=3, adjust=False).mean().reset_index(level=0, drop=True)
+    quantities_total = df_grouped.groupby(['Year', 'Month', 'StockCodeHash']).agg({'Quantity': 'sum'}).reset_index().rename(columns={'Quantity': 'quantity_month_worldwide'})
+    quantities_total["mean_worldwide"] = quantities_total.groupby("StockCodeHash")["quantity_month_worldwide"].rolling(window=3).mean().reset_index(level=0, drop=True)
+    quantities_total["weighted_mean_worldwide"] = quantities_total.groupby("StockCodeHash")["quantity_month_worldwide"].ewm(span=3, adjust=False).mean().reset_index(level=0, drop=True)
     quantities_total["mean_worldwide"].fillna(quantities_total["quantity_month_worldwide"],inplace=True)
 
     
 
     
-    df_grouped = df_grouped.merge(quantities_total, on=['Year', 'Month', 'StockCode'], how='left').rename(columns={'Quantity': 'quantity_month_continent'})
-    df_grouped["mean_continent"] = df_grouped.groupby("StockCode")["quantity_month_continent"].rolling(window=3).mean().reset_index(level=0, drop=True)
-    df_grouped["weighted_mean_continent"] = df_grouped.groupby("StockCode")["quantity_month_continent"].ewm(span=3, adjust=False).mean().reset_index(level=0, drop=True)
+    df_grouped = df_grouped.merge(quantities_total, on=['Year', 'Month', 'StockCodeHash'], how='left').rename(columns={'Quantity': 'quantity_month_continent'})
+    df_grouped["mean_continent"] = df_grouped.groupby("StockCodeHash")["quantity_month_continent"].rolling(window=3).mean().reset_index(level=0, drop=True)
+    df_grouped["weighted_mean_continent"] = df_grouped.groupby("StockCodeHash")["quantity_month_continent"].ewm(span=3, adjust=False).mean().reset_index(level=0, drop=True)
     df_grouped["mean_continent"].fillna(df_grouped["quantity_month_continent"],inplace=True)
     
-    df_grouped = df_grouped.merge(df_price, on=['Year', 'Month', 'StockCode'], how='left')
+    df_grouped = df_grouped.merge(df_price, on=['Year', 'Month', 'StockCodeHash'], how='left')
     
     return df_grouped
+
+
+
+def remap(df,map_):
+    df["StockCode"] = df["StockCodeHash"].map(map_)
+    
