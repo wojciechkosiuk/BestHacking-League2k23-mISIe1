@@ -15,6 +15,9 @@ def initial_transform(df):
     df['YearMonth'] = df['InvoiceDate'].map(lambda date: str(date.year) + "-" +str(date.month).zfill(2))
 
     df = df[df['Quantity'] > 0]
+    df = df[df['Price'] > 0]
+
+    return df
 
 
 def add_continent_and_eu_columns(df):
