@@ -77,7 +77,21 @@ def add_continent_and_eu_columns(df):
     return df
 
 
+
 def add_moving_mean_columns(df):
+
+    df_price = df.groupby(['Year', 'Month', 'StockCode','is_logged']).agg({'Price': 'mean'})
+    df_price = df_price.reset_index()
+    df_price = df_price.pivot_table(index=['Year', 'Month', 'StockCode'], columns='is_logged', values='Price')
+
+    # Rename the columns
+    df_price = df_price.rename(columns={0: 'price_unlogged', 1: 'price_logged'})
+
+    # Reset the index to convert the result back to a DataFrame
+    df_price = df_price.reset_index()
+    df_price["price_logged"].fillna(df_price["price_unlogged"]/2,inplace=True)
+    df_price["price_unlogged"].fillna(df_price["price_logged"]*2,inplace=True)
+
 
     df_grouped = df.groupby(['Year', 'Month', 'StockCode', 'Continent']).agg({'Quantity': 'sum'})
     df_grouped = df_grouped.reset_index()
@@ -95,4 +109,7 @@ def add_moving_mean_columns(df):
     df_grouped["mean_continent"] = df_grouped.groupby("StockCode")["quantity_month_continent"].rolling(window=3).mean().reset_index(level=0, drop=True)
     df_grouped["weighted_mean_continent"] = df_grouped.groupby("StockCode")["quantity_month_continent"].ewm(span=3, adjust=False).mean().reset_index(level=0, drop=True)
     df_grouped["mean_continent"].fillna(df_grouped["quantity_month_continent"],inplace=True)
+    
+    df_grouped = df_grouped.merge(df_price, on=['Year', 'Month', 'StockCode'], how='left')
+    
     return df_grouped
