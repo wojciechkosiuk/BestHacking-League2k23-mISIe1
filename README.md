@@ -17,6 +17,21 @@ This Online Retail II data set contains all the transactions occurring for a UK-
 * Country: Country name. Nominal. The name of the country where a customer resides.
 
 
+---
+
+## Notes:
+* EDA: wykres krajów (podział na kontynenty), kraj vs cena, produkt vs kraj, 
+* Tworzenie nowych kolumn - Customer Country
+* Wykrywanie i usuwanie outlierów
+* NLP
+* Podział Time-Series Split
+* Wybór kolumn (!!!)
+* Model
+* Wizualizacje
+
+
+
+
 ## Zrozumienie wybranej bazy danych. (20 pkt)
 Przeanalizuj zbiór danych pod kątem rekordów wybrakowanych, korelacji wartości itp. w celu
 lepszego zrozumienia wybranych danych oraz możliwie odpowiedniego manipulowania nimi
