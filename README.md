@@ -22,16 +22,14 @@ This Online Retail II data set contains all the transactions occurring for a UK-
 
 ---
 
-## Notes:
-* EDA: wykres krajów (podział na kontynenty), kraj vs cena, produkt vs kraj, 
-* Tworzenie nowych kolumn - Customer Country
-* Wykrywanie i usuwanie outlierów
-* NLP
-* Podział Time-Series Split
-* Wybór kolumn (!!!)
-* Model
-* Wizualizacje
-
+## Pliki
+Rozwiązanie składa się z plików:
+* `README.md` - plik z opisem projektu
+* `Solution.ipynb` - plik z rozwiązaniem zadania
+* `NLP.ipynb` - plik z tworzeniem jednej z pośrednich tabel
+* `df_most_simmilar_indexes.csv` - plik z tabelą z indeksami najbardziej podobnych produktów (wygenerowana w `NLP.ipynb`)
+* `model_research.ipynb` - plik z eksperymentami na modelach
+* `pipeline_functions.py` - plik z pipeline przekształcania danych
 
 
 
