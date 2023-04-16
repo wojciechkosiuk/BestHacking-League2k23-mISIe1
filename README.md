@@ -33,6 +33,7 @@ Rozwiązanie składa się z plików:
 
 
 
+# Treść zadania
 ## Zrozumienie wybranej bazy danych. (20 pkt)
 Przeanalizuj zbiór danych pod kątem rekordów wybrakowanych, korelacji wartości itp. w celu
 lepszego zrozumienia wybranych danych oraz możliwie odpowiedniego manipulowania nimi
